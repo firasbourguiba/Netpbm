@@ -3,10 +3,10 @@ package main
 import (
 	"fmt"
 	"os"
-    
+    netpbm "github.com/firasbourguiba/Netpbm1"
 )
 
-func test() {
+func main() {
 	file, err := os.Open("test.pbm")
 	if err != nil {
 		fmt.Println("Error opening file:", err)
@@ -14,26 +14,28 @@ func test() {
 	}
 	defer file.Close()
 
-	image, err := ReadPBM(test.pbm)
+	image, err := netpbm.ReadPBM(file)
 	if err != nil {
 		fmt.Println("Error reading PBM file:", err)
 		return
 	}
 
-	fmt.Println("Magic Number:", image.magicNumber)
-	fmt.Println("Width:", image.width)
-	fmt.Println("Height:", image.height)
-	fmt.Println("Data:")
-	for _, row := range image.data {
-		for _, pixel := range row {
-			if pixel {
-				fmt.Print("1 ")
-			} else {
-				fmt.Print("0 ")
-			}
-		}
-		fmt.Println()
-	}
+    fmt.Println(image)
+
+	// fmt.Println("Magic Number:", image.magicNumber)
+	// fmt.Println("Width:", image.width)
+	// fmt.Println("Height:", image.height)
+	// fmt.Println("Data:")
+	// for _, row := range image.data {
+	// 	for _, pixel := range row {
+	// 		if pixel {
+	// 			fmt.Print("1 ")
+	// 		} else {
+	// 			fmt.Print("0 ")
+	// 		}
+	// 	}
+	// 	fmt.Println()
+	// }
 }
 
 func readPBM(file *os.File) {
