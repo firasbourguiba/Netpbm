@@ -3,24 +3,19 @@ package main
 import (
 	"fmt"
 	"os"
-    netpbm "github.com/firasbourguiba/Netpbm1"
+
+	netpbm "github.com/firasbourguiba/Netpbm1"
 )
 
 func main() {
-	file, err := os.Open("test.pbm")
-	if err != nil {
-		fmt.Println("Error opening file:", err)
-		return
-	}
-	defer file.Close()
 
-	image, err := netpbm.ReadPBM(file)
+	image, err := netpbm.ReadPBM("test.pbm")
 	if err != nil {
 		fmt.Println("Error reading PBM file:", err)
 		return
 	}
 
-    fmt.Println(image)
+	fmt.Println(image)
 
 	// fmt.Println("Magic Number:", image.magicNumber)
 	// fmt.Println("Width:", image.width)
