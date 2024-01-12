@@ -1,64 +1,69 @@
 package netpbm
 
 import (
+	"fmt"
+	"io/ioutil"
 	"os"
-	"strconv"
-	"strings"
 )
 
-type Image struct {
-    magicNumber string
-    width       int
-    height      int
-    data        [][]bool
+type PBM struct {
+	data          [][]bool
+	width, height int
+	magicNumber   string
 }
 
-func ReadPBM(file *os.File) (Image, error) {
-    var image Image
+func ReadPBM(filename string) (*PBM, error) {
+	//lire le ficheier
+	file, err := os.Open(filename)
+	if err != nil {
+		return nil, err
+	}
+	defer file.Close()
+	//identifier le magicnumber
+	var magicNumber string
+	if _, err = fmt.Fscan(file, &magicNumber); err != nil {
+		return nil, err
+	}
+	//lire les taille width et height
+	var w, h int
+	if _, err = fmt.Fscanf(file, "%d %d", &w, &h); err != nil {
+		return nil, err
+	}
+	// le nouveau pbm pour l'afficher
+	pbm := &PBM{
+		magicNumber: magicNumber,
+		width:       w,
+		height:      h,
+	}
+	//affiche l'image ( data h w )
+	if pbm.magicNumber == "P1" {
+		pbm.data = make([][]bool, pbm.height)
+		for y := 0; y < pbm.height; y++ {
+			row := make([]bool, pbm.width)
+			for x := 0; x < pbm.width; x++ {
+				if _, err = fmt.Fscan(file, &row); err != nil {
+					return nil, err
+				}
+				pbm.data[y] = row
+			}
+		}
+	} else if pbm.magicNumber == "P4" {
+		var data []byte
+		if data, err = ioutil.ReadAll(file); err != nil {
+			return nil, err
+		}
+		pbm.data = make([][]bool, pbm.height)
+		for y := 0; y < pbm.height; y++ {
+			row := make([]bool, pbm.width)
+			for x := 0; x < pbm.width; x++ {
 
-    // Read magic number
-    var magicNumber [2]byte
-    _, err := file.Read(magicNumber[:])
-    if err != nil {
-        return image, err
-    }
-    image.magicNumber = string(magicNumber[:])
+				row[x] = data[y*pbm.width+x] == '1'
+			}
+			pbm.data[y] = row
+		}
+	} else {
+		return nil, fmt.Errorf("invalid magic number : %s", pbm.magicNumber)
+	}
+	return pbm, nil
 
-    // Read size
-    var sizeLine [10]byte
-    _, err = file.Read(sizeLine[:])
-    if err != nil {
-        return image, err
-    }
-    sizeParts := strings.Split(string(sizeLine[:]), " ")
-    image.width, err = strconv.Atoi(sizeParts[0])
-    if err != nil {
-        return image, err
-    }
-    image.height, err = strconv.Atoi(sizeParts[1])
-    if err != nil {
-        return image, err
-    }
-
-    // Create data slice
-    image.data = make([][]bool, image.height)
-    for i := 0; i < image.height; i++ {
-        image.data[i] = make([]bool, image.width)
-    }
-
-    // Read image data
-    for i := 0; i < image.height; i++ {
-        for j := 0; j < image.width; j++ {
-            var pixelByte [1]byte
-            _, err := file.Read(pixelByte[:])
-            if err != nil {
-                return image, err
-            }
-            image.data[i][j] = pixelByte[0] == '#'
-        }
-    }
-
-    return image, nil
 }
-
-
