@@ -13,6 +13,9 @@ func main() {
 		fmt.Println("Error reading PBM file:", err)
 		return
 	}
+	fmt.Println("Magic sfzfsfsfsfNumber:")
+	fmt.Println("Width:sfsfsfsff")
+	netpbm.Size()
 
 	fmt.Println(image)
 
