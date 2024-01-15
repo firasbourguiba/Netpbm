@@ -15,9 +15,10 @@ func main() {
 	}
 	fmt.Println("Magic sfzfsfsfsfNumber:")
 	fmt.Println("Width:sfsfsfsff")
-	netpbm.Size()
+	image.Size()
 
 	fmt.Println(image)
+	image.AT(5,8)
 
 	//fmt.Println("Magic Number:", image.magicNumber)
 	// fmt.Println("Width:", image.width)
