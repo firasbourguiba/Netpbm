@@ -2,7 +2,6 @@ package main
 
 import (
 	"fmt"
-	"os"
 
 	netpbm "github.com/firasbourguiba/Netpbm1"
 )
@@ -17,7 +16,7 @@ func main() {
 
 	fmt.Println(image)
 
-	// fmt.Println("Magic Number:", image.magicNumber)
+	//fmt.Println("Magic Number:", image.magicNumber)
 	// fmt.Println("Width:", image.width)
 	// fmt.Println("Height:", image.height)
 	// fmt.Println("Data:")
@@ -33,6 +32,6 @@ func main() {
 	// }
 }
 
-func readPBM(file *os.File) {
+/*func readPBM(file *os.File) {
 	panic("unimplemented")
-}
+}*/
