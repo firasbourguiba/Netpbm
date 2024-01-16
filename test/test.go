@@ -19,23 +19,15 @@ func main() {
 
 	fmt.Println(image)
 	image.AT(5,8)
-
-	//fmt.Println("Magic Number:", image.magicNumber)
-	// fmt.Println("Width:", image.width)
-	// fmt.Println("Height:", image.height)
-	// fmt.Println("Data:")
-	// for _, row := range image.data {
-	// 	for _, pixel := range row {
-	// 		if pixel {
-	// 			fmt.Print("1 ")
-	// 		} else {
-	// 			fmt.Print("0 ")
-	// 		}
-	// 	}
-	// 	fmt.Println()
-	// }
+	fmt.Print("teste save")
+	image.Save("test.pbm")
+	fmt.Print("teste Invert \n")
+	image.Invert()
+	fmt.Print(" \n")
+	fmt.Print("teste filp \n")
+	image.Flip()
+	fmt.Print(" \n")
+	fmt.Print("teste flop \n")
+	image.Flop()
+		
 }
-
-/*func readPBM(file *os.File) {
-	panic("unimplemented")
-}*/

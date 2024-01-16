@@ -68,7 +68,7 @@ func ReadPBM(filename string) (*PBM, error) {
 				return nil, fmt.Errorf("error reading row %d: %v", y, scanner.Err())
 			}
 			row := make([]bool, pbm.width)
-			// Split the line into individual values
+			
 			values := strings.Fields(scanner.Text())
 			if len(values) != pbm.width {
 				return nil, fmt.Errorf("unexpected number of values in row %d, expected %d, got %d", y, pbm.width, len(values))
@@ -84,19 +84,29 @@ func ReadPBM(filename string) (*PBM, error) {
 		}
 
 	} else if pbm.magicNumber == "P4" {
-		var data []byte
-		data, err = ioutil.ReadAll(file)
-		if err != nil {
-			return nil, err
-		}
-		pbm.data = make([][]bool, pbm.height)
-		for y := 0; y < pbm.height; y++ {
-			row := make([]bool, pbm.width)
-			for x := 0; x < pbm.width; x++ {
-				row[x] = data[y*pbm.width+x] == '1'
-			}
-			pbm.data[y] = row
-		}
+		binaryData, err := ioutil.ReadAll(file)
+    if err != nil {
+        return nil, fmt.Errorf("error reading binary data: %v", err)
+    }
+
+    expectedBits := pbm.width * pbm.height
+    actualBits := len(binaryData) * 8
+
+    if actualBits != expectedBits {
+        return nil, fmt.Errorf("error reading sizes, expected %d bits, got %d bits", expectedBits, actualBits)
+    }
+
+    pbm.data = make([][]bool, pbm.height)
+    for y := 0; y < pbm.height; y++ {
+        row := make([]bool, pbm.width)
+        for x := 0; x < pbm.width; x++ {
+            bitIndex := y*pbm.width + x
+            byteIndex := bitIndex / 8
+            bitOffset := 7 - (bitIndex % 8)
+            row[x] = (binaryData[byteIndex]>>bitOffset)&1 == 1
+        }
+        pbm.data[y] = row
+    }
 	} else {
 		return nil, fmt.Errorf("invalid magic number : %s", pbm.magicNumber)
 	}
