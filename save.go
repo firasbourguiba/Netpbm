@@ -24,7 +24,7 @@ func (pbm *PBM) Save(filename string) error {
 	if pbm.magicNumber == "P1" {
 		for y := 0; y < pbm.height; y++ {
 			for x := 0; x < pbm.width; x++ {
-				// si true 1 false 0 
+				// si true 1 false 0
 				if pbm.data[y][x] {
 					fmt.Fprint(file, "1 ")
 				} else {
@@ -44,7 +44,7 @@ func (pbm *PBM) Save(filename string) error {
 						return err
 					}
 				} else {
-					// faut 0 
+					// faut 0
 					if _, err := file.Write([]byte{0}); err != nil {
 						return err
 					}
