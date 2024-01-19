@@ -38,5 +38,6 @@ func main() {
 		return
 	}
 	fmt.Println(PPGM)
+	PP
 	
 }
