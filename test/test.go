@@ -9,7 +9,7 @@ import (
 
 func main() {
 
-	/*image, err := netpbm.ReadPBM("test.pbm")
+	image, err := netpbm.ReadPBM("test.pbm")
 	if err != nil {
 		fmt.Println("Error reading PBM file:", err)
 
@@ -17,7 +17,7 @@ func main() {
 	}
 	fmt.Println("Magic sfzfsfsfsfNumber:")
 	fmt.Println("Width:sfsfsfsff")
-	image.Size()
+	image.
 
 	fmt.Println(image)
 	image.AT(5, 8)
@@ -30,7 +30,7 @@ func main() {
 	image.Flip()
 	fmt.Print(" \n")
 	fmt.Print("teste flop \n")
-	image.Flop()*/
+	image.Flop()
 	PPGM, err := netpbm.ReadPGM("test.pgm")
 	if err != nil {
 		fmt.Println("Error reading PGM file:", err)
