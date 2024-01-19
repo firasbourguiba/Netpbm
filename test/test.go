@@ -38,6 +38,6 @@ func main() {
 		return
 	}
 	fmt.Println(PPGM)
-	PP
+	PPGM.SavePGM("test.pgm")
 	
 }
